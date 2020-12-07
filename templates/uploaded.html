@@ -1,0 +1,42 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+<p class="text-center">{{ onwer_name }} successfully uploaded.</p>
+<div class="container" align="center">
+
+    <div class="row" align="center">
+
+        <div class="col-xs-6 imgcont" align="center">
+            <div class="img-responsive">
+                <p class="text-center"><b>Original Image</b></p>
+                <a href="/static/uploads/{{ fname }}" target="_new">
+                <img src="/static/uploads/{{ fname }}"   style="width:100%" ></a>
+            </div>
+        </div>
+
+
+            <div class="col-xs-6 imgcont" align="center">
+                <div class="img-responsive">
+                    <p class="text-center"><b>Detected Image</b></p>
+                    <a href="/static/detections/{{display_detection}}" target="_new">
+                    <img src="/static/detections/{{display_detection}}"  style="width:100%" ></a>
+                </div>
+            </div>
+
+    </div>
+
+</div>
+
+<br> </br>
+
+<div class="upload-form" align="center">
+
+    <a href="{{url_for('index')}}" class="btn btn-primary btn-lg" >Upload another?</a>
+</div>
+
+
+</br>
+
+    
+
+{% endblock %} 

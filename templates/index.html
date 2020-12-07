@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<center>
+        <br></br>
+        <br></br>
+    
+            <form action="/uploader" method="POST"
+                  enctype="multipart/form-data"
+                  class="form-horizontal">
+
+            
+
+ <div class="grad" style="padding:10px; line-height:20px; ">
+<span class="secH"><b><h2>USER DATA</h2></b></span>              
+<div class="quesMix">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="pq1"><span style="color:#F00;"><b>*</b></span> Name</td>
+        <td class="pq2"><input type="text" class="form-control" name="uname" id="uname" value="" placeholder="name" style="width:250px; " /></td>
+      </tr>
+
+      <tr>
+        <td class="pq1"><span style="color:#F00;"><b>*</b></span> Vehicle Image</td>
+        <!-- <td class="pq2"><input type="text" class="userInput" name="uname" id="uname" value="" placeholder="name" style="width:250px; " /></td> -->
+        <td><input type="file" class="form-control-file" id="vechicleimage" name="file" style="width:250px; "></td>
+
+      </tr>
+</table>
+
+<br></br>
+<div align="center" id="formSubmit">
+    <input class="btn btn-primary" type="submit" value="Submit">
+
+<!-- <span id="submitt">Submit</span>
+ --></div>
+
+</form>
+        
+</center>
+
+{% endblock %}
