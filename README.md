@@ -9,5 +9,5 @@ Download the weights and store in the weights folder.
 Google Open Image is used for data gathering of plates and their annotations
 <br></br>
 <div class="img-responsive">
-<img src="https://github.com/sauravakolia/License_Plate_Reader/blob/main/static/detections/00c82d64185293a7.jpg" width="500" height="600">
+<img src="https://github.com/sauravakolia/License_Plate_Reader/blob/main/static/detections/00c82d64185293a7.jpg" width="600" height="600">
 </div>
