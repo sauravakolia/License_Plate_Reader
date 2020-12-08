@@ -7,7 +7,8 @@ The application reads the **License Plate** of the vehicles.
 * This application is further deployed on the public server using Heroku </br>
 
 
-Link to public server  <a href="https://herokutrialopencv.herokuapp.com/"></a>
+Link to public server  
+<a href="https://herokutrialopencv.herokuapp.com/"></a>
 <br></br>
 
 <div class="img-responsive">
