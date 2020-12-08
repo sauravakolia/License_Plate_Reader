@@ -7,3 +7,5 @@ Download the weights and store in the weights folder.
 
 <br></br>
 Google Open Image is used for data gathering of plates and their annotations
+<br></br>
+<img src="https://drive.google.com/file/d/1m2AuTIN9lcYdYtFEjrceCECe3RFDBRVr/view?usp=sharing">
