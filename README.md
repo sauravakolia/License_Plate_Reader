@@ -19,8 +19,8 @@ Download the weights and store in the weights folder.
 * Google Open Image is used for data gathering of plates and their annotations.
 * For downloading the data set from <i>Open Image</i> OIDv4 ToolKit is used
 * Training dataset includes 1500 images and annotations</br>
-  `python3 main.py downloader --classes Vehicle registration plate --type_csv train -limit 1500`
-* Validation dataset includes 700 images and annotations 
+  `python3 main.py downloader --classes Vehicle registration plate --type_csv train -limit 1500`</br>
+* Validation dataset includes 700 images and annotations</br>
    `python3 main.py downloader --classes Vehicle registration plate --type_csv validation -limit 700`
 <br></br>
 
