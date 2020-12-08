@@ -3,7 +3,7 @@
 <br></br>
 
 <div class="img-responsive">
-<img src="https://github.com/sauravakolia/License_Plate_Reader/blob/main/static/detections/00c82d64185293a7.jpg" width="600" height="400">
+<img src="https://github.com/sauravakolia/License_Plate_Reader/blob/main/static/detections/00c82d64185293a7.jpg" width="300" height="200">
 </div>
 
 Download the weights and store in the weights folder.
