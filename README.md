@@ -7,6 +7,7 @@ Download the weights and store in the weights folder.
 
 <a href="https://colab.research.google.com/drive/1aJm4yzsulCxjVWUXOPEW0RAJ68MDbYHa?usp=sharing"> Plate Detection Notebook</a>
 
+<a href="https://github.com/sauravakolia/License_Plate_Detector">Plate Detection Repository</a>
 <br></br>
 Google Open Image is used for data gathering of plates and their annotations
 <br></br>
