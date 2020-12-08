@@ -1,5 +1,13 @@
 # License Plate Reader
-<a href="https://herokutrialopencv.herokuapp.com/">Website Link</a>
+
+The application reads the **License Plate** of the vehicles.
+* It uses the combination of Object Detection and OCR techniques.
+* It uses Object detection for detecting the License Plate from the vehicles image
+* The detected plate is then pass to the OCR algorithm for further reading the License Plate number.
+* This application is further deployed on the public server using Heroku </br>
+
+
+Link to public server  <a href="https://herokutrialopencv.herokuapp.com/"></a>
 <br></br>
 
 <div class="img-responsive">
