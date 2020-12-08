@@ -12,7 +12,7 @@ Link to public server
 <br></br>
 
 <div class="img-responsive">
-<img src="https://github.com/sauravakolia/License_Plate_Reader/blob/main/static/detections/00c82d64185293a7.jpg" width="300" height="200">
+<img src="https://github.com/sauravakolia/License_Plate_Reader/blob/main/static/detections/00c82d64185293a7.jpg" width="500" height="300">
 </div>
 
 Download the weights and store in the weights folder.
