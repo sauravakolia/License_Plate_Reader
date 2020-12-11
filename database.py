@@ -13,3 +13,5 @@ mycursor=mydb.cursor()
 
 mycursor.execute("CREATE TABLE IF NOT EXISTS Owner_Data(id INT AUTO_INCREMENT PRIMARY KEY ,name VARCHAR(255),car_plate VARCHAR(255))")
  # mycursor.execute("CREATE TABLE IF NOT EXISTS Exhibito_Accounts(id  INT AUTO_INCREMENT PRIMARY KEY,email VARCHAR(255), password VARCHAR(255))")
+# 
+# mycursor.execute("TRUNCATE TABLE  Owner_Data")

@@ -1,15 +1,32 @@
 
 import cv2
 import numpy as np 
-import argparse
 import time
 import os
 import re
 import matplotlib.pyplot as plt
 
-import pytesseract
+from fastai.vision.all import *
+from fastai.metrics import error_rate, accuracy
+from pathlib import Path
+import pickle
 
-pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
+import pathlib
+# temp = pathlib.PosixPath
+# pathlib.PosixPath = pathlib.WindowsPath
+
+# import pytesseract
+
+modelPath = Path("weights")
+# o.path.join(modelPath,'export.pkl')
+
+# state = pickle.load(open(modelPath.joinpath("export.pkl"), 'rb'))
+
+learn=load_learner(modelPath/'export.pkl','rb')
+# learn=load_learner(state)
+
+
+# pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 
@@ -21,89 +38,99 @@ def load_image(image_path):
 	# image_data = image_data / 255.
 	return original_image
 
+	
 
 def text_getter(image):
-	# gray = cv2.imread("C:\\Users\\Saurav Akolia\\Google Drive\\License_Plate\\croped.jpg", 0)
-	gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	gray = cv2.resize( gray, None, fx = 3, fy = 3, interpolation = cv2.INTER_CUBIC)
-	# cv2.imshow("black",gray)
-	# cv2.imshow("gray",gray)
-	blur = cv2.GaussianBlur(gray, (5,5), 0)
-	gray = cv2.medianBlur(gray, 3)
-	
-	# perform otsu thresh (using binary inverse since opencv contours work better with white text)
-	ret, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
-	# print("thresh")
-	# cv2.imshow("thresh",thresh)
-	# cv2.waitKey(0)
-	rect_kern = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
 
-	# apply dilation 
-	dilation = cv2.dilate(thresh, rect_kern, iterations = 2)
-	# cv2.imshow("dilation",dilation)
-	# cv2.imshow("gray",gray)
-	#cv2.waitKey(0)
-	# find contours
-	try:
-	  contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-	except:
-	  ret_img, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+  # gray = cv2.imread(img_path, 0)
+  gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+  cv2.rotate(gray, cv2.cv2.ROTATE_180) 
+  gray = cv2.resize( gray, None, fx = 3, fy = 3, interpolation = cv2.INTER_CUBIC)
+  # normal = cv2.resize( cv2.imread(img_path), None, fx = 3, fy = 3, interpolation = cv2.INTER_CUBIC)
 
-	sorted_contours = sorted(contours, key=lambda ctr: cv2.boundingRect(ctr)[0])
+  blur = cv2.GaussianBlur(gray, (7,7), 0)
+  gray = cv2.medianBlur(gray, 3)
+  # perform otsu thresh (using binary inverse since opencv contours work better with white text)
+  ret, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
+  rect_kern = cv2.getStructuringElement(cv2.MORPH_RECT, (8,8))
 
-	# create copy of image
-	im2 = gray.copy()
-	print("in text")
-	pre_text=pytesseract.image_to_string(im2, config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ --psm 8 --oem 3',lang='eng')
-	pre_text = re.sub('[\\W_]+', '', pre_text)
-	# print("K")
-	plate_num = ""
-	
-	# loop through contours and find letters in license plate
-	for cnt in sorted_contours:
+  # apply dilation s
+  dilation = cv2.dilate(thresh, rect_kern, iterations = 1)
+  
 
-		# print("sd")
-		x,y,w,h=cv2.boundingRect(cnt)
-		height, width = im2.shape
-		# if height of box is not a quarter of total height then skip
-		if height / float(h) > 6: continue
+  # text = pytesseract.image_to_string(thresh, config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXY --psm 8 --oem 3')
 
-		ratio=h / float(w)
+  # pyresult=re.sub('[\\W_]+', '', text)
+  # print("tess",pyresult)
+  im2 = gray.copy()
+  img_edge = cv2.Canny(thresh,100,200, L2gradient = True)
+  try:
+      contours, hierarchy = cv2.findContours(img_edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+  except:
+      ret_img, contours, hierarchy = cv2.findContours(img_edge,hierarchy, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+  sorted_contours = sorted(contours, key=lambda ctr: cv2.boundingRect(ctr)[0])
 
-	  	# if height to width ratio is less than 1.5 skip
 
-		if ratio <1.5:continue
+  # image = cv2.drawContours(normal.copy() , sorted_contours , -1 , (0,255,0), 3)
 
-		area=h * w
+  plate_num = ""
+  (px,py,pw,ph)=(0,0,0,0)
+  prev=(px,py,pw,ph)
 
-	# if width is not more than 25 pixels skip
-		if width / float(w) > 15: continue
 
-	# if area is less than 100 pixels skip
-		if  area < 100: continue
-		# draw the rectangle
+  # loop through contours and find letters in license plate
+  result=""
 
-		rect=cv2.rectangle(im2, (x,y), (x+w, y+h), (0,255,0),2)
+  for cnt in sorted_contours:
+  	x,y,w,h = cv2.boundingRect(cnt)
+  	orig=(x,y,w,h)
 
-		roi=  thresh[y-5:y+h+5, x-5:x+w+5]
+  	if (orig==prev):continue	
 
-		roi=cv2.bitwise_not(roi)
+  	if((prev[0] < orig[0] < prev[0]+prev[2] ) and (prev[1] < orig[1] < prev[1]+prev[3])):
+  		continue
 
-		roi=cv2.medianBlur(roi, 5)
+  	height, width = im2.shape
 
-		text=pytesseract.image_to_string(roi, config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ --psm 8 --oem 3')
+  	if height / float(h) > 6: continue
 
-		clean_text = re.sub('[\\W_]+', '', text)
+  	# if height of box is not a quarter of total height then skip
+  	ratio=h / float(w)
 
-		plate_num += clean_text
+  	# if height to width ratio is less than 1.5 skip
 
-	if len(plate_num)==0:
-		return pre_text
-	else:
-		return plate_num
-	
-	#return plate_num
-	
+  	if ratio < 1.2: continue
+
+  	area = h * w
+
+  	# if width is not more than 25 pixels skip
+  	if width / float(w) > 18: continue
+
+      # if area is less than 100 pixels skip
+
+
+  	if area < 100: continue
+
+
+  	if h < 50 : continue
+
+  	# draw the rectangle
+
+  	roi = thresh[y-5:y+h+5, x-5:x+w+5]
+
+  	roi = cv2.bitwise_not(roi)
+
+  	roi = cv2.medianBlur(roi, 5)
+
+  	invert = cv2.bitwise_not(roi)
+
+  	result=result+learn.predict(invert)[0]
+
+  	prev=(x,y,w,h)
+    
+
+  # if len(pyresult) > len(result): result=pyresult
+  return result
 
 def plate_dtection(image_path,filename):
 
@@ -116,7 +143,7 @@ def plate_dtection(image_path,filename):
 	# import unidecode
 
 	classes = []
-	net = cv2.dnn.readNet("weights/yolov4-obj_final.weights", "labels/yolov4-obj.cfg")
+	net = cv2.dnn.readNet("weights/yolov4-tiny-obj_final.weights", "labels/yolov4-tiny-obj.cfg")
 	net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 	net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
 
@@ -132,6 +159,7 @@ def plate_dtection(image_path,filename):
 		# class_name=f.readlines()
 			class_names = [line.strip() for line in f.readlines()]
 
+	plate_no=""
 	for (classid, score, box) in zip(classes, scores, boxes):
 	  color = COLORS[int(classid) % len(COLORS)]
 	  
@@ -144,13 +172,13 @@ def plate_dtection(image_path,filename):
 
 	  label = "%s : %s"  % (class_names[classid[0]],score)
 
-	  cropped_img=image[ymin:ymin+ymax,xmin:xmin+xmax]
+	  cropped_img=image[ymin-5:ymin+ymax+5, xmin-5:xmin+xmax+5]
 	 
 	   # save image
 	  plate_no=text_getter(cropped_img)
 	  
 
-	  print(plate_no)
+	  # print(plate_no)
 	  ## cv2.imwrite("\\croped.jpg", cropped_img)
 	  cv2.rectangle(image, (xmin,ymin), (xmin+xmax, ymin+ymax), (0,0,255), 2)
 
@@ -171,4 +199,6 @@ def plate_dtection(image_path,filename):
 
 
 
-#plate_dtection()
+
+# d=plate_dtection("C:\\Users\\Saurav Akolia\\Google Drive\\License_Plate\\croped.jpg","croped.jpg")
+# print("plate_no",d)

@@ -18,6 +18,7 @@ from flask import Flask
 
 from flask_mysqldb import MySQL
 
+
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'us-cdbr-east-02.cleardb.com'
@@ -26,7 +27,7 @@ app.config['MYSQL_PASSWORD'] = '592b2369'
 app.config['MYSQL_DB'] = 'heroku_8bb5027e2cb7476'
 
 mysql = MySQL(app)
-
+                       
 
 
 
@@ -74,11 +75,12 @@ def upload_file():
 
 @app.route("/data")
 def user_data():
-  mycursor=mysql.connection.cursor()
+
   mycursor=mysql.connection.cursor()
   mycursor.execute("SELECT id,name,car_plate FROM Owner_Data")
   x=mycursor.fetchall()
-
+  mysql.connection.commit()
+  mycursor.close()
   
   return render_template('data.html',posts=x)
 
