@@ -35,3 +35,8 @@ Download the weights and store in the weights folder.
    `python main.py downloader --classes Vehicle_registration_plate --type_csv validation --limit 1000`
 <br></br>
 
+* For Character recogination <a href="http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/">Chars74K dataset</a> is used.
+  * Dataset contains 74K images of 64 classes (0-9, A-Z, a-z). The dataset includes characters obtained from natural images (7,705), hand-drawn characters (3,410) and     synthesised characters from computer fonts (62,992).
+  * For this project synthesized characters are used
+
+
