@@ -23,7 +23,7 @@ Download the weights and store in the weights folder.
 
 <a href="https://github.com/sauravakolia/License_Plate_Detector">Plate Detection Repository</a>
 
-<a href="https://colab.research.google.com/drive/1myc6MdzlWdQrHGQ16rnzuOqsAqHtadMW?usp=sharing">OCR Word Trainer Notebook</a>
+<a href="https://colab.research.google.com/drive/1VW3-fjaZs_qtRQjUXIAajpNDRTQw_zSA?usp=sharing">OCR Word Trainer Notebook</a>
 <br></br>
 
 # Dataset
