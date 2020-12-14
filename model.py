@@ -24,7 +24,7 @@ import imutils
 import cv2
 
 # temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+# pathlib.PosixPath = pathlib.WindowsPath
 
 # import pytesseract
 
