@@ -38,5 +38,11 @@ Download the weights and store in the weights folder.
 * For Character recogination <a href="http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/">Chars74K dataset</a> is used.
   * Dataset contains 74K images of 64 classes (0-9, A-Z, a-z). The dataset includes characters obtained from natural images (7,705), hand-drawn characters (3,410) and     synthesised characters from computer fonts (62,992).
   * For this project synthesized characters are used
+</br>
 
+# Challenges
+* Low accuracy in Tiny Yolo-v4
+  * With increase in slug size of the app it is not efficient to use Yolo-v4 but with decrease in architecture complexity accuracy also goes down.
+* Segmentation of the characters from the Plate
+  * Segmenting task is one of the difficult part of this problem as plate fonts sizes varies diversly across the country.
 
